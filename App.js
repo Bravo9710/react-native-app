@@ -1,25 +1,22 @@
+// import { NavigationContainer } from "@react-navigation/native";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import { Button, NativeBaseProvider, Toast } from "native-base";
-import { NativeModules, StyleSheet, Text, View } from "react-native";
+import { NativeBaseProvider } from "native-base";
+import { NativeModules, StyleSheet, View } from "react-native";
 import Header from "./components/Header";
+import HomeScreen from "./screens/HomeScreen";
+import SecondaryScreen from "./screens/SecondaryScreen";
+
 const { StatusBarManager } = NativeModules;
 
 export default function App() {
   return (
     <NativeBaseProvider>
       <View style={styles.main}>
+        <StatusBar style="light" />
         <Header />
-        <View style={styles.container}>
-          <Text style={{ color: "#ddd" }}>Our first app</Text>
-          <Button
-            mt={5}
-            onPress={() => Toast.show({ description: "Hello world" })}>
-            Click Me
-          </Button>
-
-          {/* Android's default status bar */}
-          <StatusBar style="light" />
-        </View>
+        <HomeScreen />
+        {/* <SecondaryScreen /> */}
       </View>
     </NativeBaseProvider>
   );
@@ -28,13 +25,7 @@ export default function App() {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: "#111",
+    backgroundColor: "#000",
     paddingTop: StatusBarManager.HEIGHT + 5,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#111",
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
