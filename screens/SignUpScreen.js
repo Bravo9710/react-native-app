@@ -46,9 +46,12 @@ export default function SignUpScreen() {
         },
       );
 
+      const responseData = await response.json();
+      console.log(responseData);
+
       // Display success message
       toast.show({
-        title: "Signup successful!",
+        title: responseData.message,
         status: "success",
       });
 
