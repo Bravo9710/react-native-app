@@ -3,26 +3,20 @@ import {
   createDrawerNavigator,
   DrawerContentScrollView,
 } from "@react-navigation/drawer";
-import { getHeaderTitle } from "@react-navigation/elements";
-import Header from "./Header";
-
 import {
   Box,
   Button,
   Center,
   Divider,
-  HamburgerIcon,
-  Heading,
   HStack,
   Icon,
-  NativeBaseProvider,
   Pressable,
   Text,
-  View,
   VStack,
 } from "native-base";
 import * as React from "react";
-import HomeScreen from "../screens/HomeScreen";
+import { useUser } from "../context/UserContext";
+import Header from "./Header";
 
 global.__reanimatedWorkletInit = () => {};
 const Drawer = createDrawerNavigator();
@@ -40,6 +34,8 @@ const getIcon = (screenName) => {
   switch (screenName) {
     case "Home":
       return "home";
+    case "Profile":
+      return "account";
     case "Inbox":
       return "email";
     case "Outbox":
@@ -58,25 +54,35 @@ const getIcon = (screenName) => {
 };
 
 function CustomDrawerContent(props) {
+  const { user } = useUser();
+
   return (
     <DrawerContentScrollView {...props} safeArea>
-      <VStack space="6" my="2" mx="1">
+      <VStack space="6" mx="1">
         <Box px="4">
-          <Text bold color="gray.700">
-            <Icon
-              color="gray.500"
-              size="5"
-              as={<MaterialCommunityIcons name="account" />}
-            />
-          </Text>
-          <Text fontSize="14" mt="1" color="gray.500" fontWeight="500">
-            john_doe@gmail.com
-          </Text>
+          {user ? (
+            <>
+              <Text fontSize="14" mt="1" color="gray.500" fontWeight="500">
+                {`${user.first_name} ${user.last_name}`}
+              </Text>
+              <Text
+                fontSize="12"
+                color="gray.500"
+                fontWeight="400"
+                fontStyle={"italic"}>
+                {`${user.email}`}
+              </Text>
+            </>
+          ) : (
+            <Button onPress={() => props.navigation.navigate("Sign In")}>
+              Sign in
+            </Button>
+          )}
         </Box>
         <VStack divider={<Divider />} space="4">
           <VStack space="3">
             {props.state.routeNames.map((name, index) => {
-              if (name === "Home") {
+              if (name === "Home" || name === "Sign In" || name === "Sign Up") {
                 return null;
               } else {
                 return (
@@ -91,7 +97,9 @@ function CustomDrawerContent(props) {
                         : "transparent"
                     }
                     onPress={(event) => {
-                      props.navigation.navigate(name);
+                      !user && name === "Profile"
+                        ? props.navigation.navigate("Sign In")
+                        : props.navigation.navigate(name);
                     }}>
                     <HStack space="7" alignItems="center">
                       <Icon
@@ -170,6 +178,7 @@ export default function CustomDrawer(props) {
   return (
     <Box safeArea flex={1}>
       <Drawer.Navigator
+        initialRouteName="Home"
         screenOptions={({ route }) => ({
           drawerPosition: "right",
           header: ({ navigation, options }) => {

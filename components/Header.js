@@ -39,11 +39,6 @@ export default function Header(props) {
       <HStack>
         <IconButton
           icon={
-            <Icon as={MaterialIcons} name="favorite" size="lg" color="white" />
-          }
-        />
-        <IconButton
-          icon={
             <Icon as={MaterialIcons} name="search" size="lg" color="white" />
           }
         />

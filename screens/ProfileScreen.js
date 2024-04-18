@@ -1,13 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { Button, Toast } from "native-base";
-import { useCallback } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { Button, NativeBaseProvider } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
 import { useUser } from "../context/UserContext";
 
-export default function HomeScreen() {
-  const navigation = useNavigation();
+export default function ProfileScreen() {
   const { user, setUser } = useUser();
+  const navigation = useNavigation();
 
   const handleLogout = async () => {
     try {
@@ -25,27 +24,28 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={{ color: "#111" }}>Our first app</Text>
-      {user && (
-        <>
-          <Text>
-            Welcome, {user.first_name} {user.last_name}
-          </Text>
-          <Text>Email: {user.email}</Text>
-        </>
-      )}
-      <Button mt={5} onPress={handleLogout}>
-        {user ? "Log out" : "Log in"}
-      </Button>
-    </View>
+    <NativeBaseProvider>
+      <View style={styles.container}>
+        {user && (
+          <>
+            <Text>
+              Welcome, {user.first_name} {user.last_name}
+            </Text>
+            <Text>Email: {user.email}</Text>
+          </>
+        )}
+        <Button mt={5} onPress={handleLogout}>
+          {user ? "Log out" : "Log in"}
+        </Button>
+      </View>
+    </NativeBaseProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#eee",
     alignItems: "center",
     justifyContent: "center",
   },

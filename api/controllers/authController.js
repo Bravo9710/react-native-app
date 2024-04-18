@@ -1,22 +1,20 @@
-// api/controllers/authController.js
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { client } = require("../utils/MongoConnection");
 
 async function register(req, res) {
   try {
+    console.log("Register request");
     await client.connect();
 
     const database = client.db("react-native-app");
     const collection = database.collection("users");
 
-    // Check if user with the same username or email already exists
-    const existingUser = await collection.findOne({
-      $or: [{ username: req.body.username }, { email: req.body.email }],
-    });
+    // Check if user with the same email already exists
+    const existingUser = await collection.findOne({ email: req.body.email });
     if (existingUser) {
       return res.status(400).json({
-        message: "User with the same username or email already exists",
+        message: "User with the same email already exists",
       });
     }
 
@@ -25,7 +23,8 @@ async function register(req, res) {
 
     // Create a new user
     await collection.insertOne({
-      username: req.body.username,
+      first_name: req.body.firstName,
+      last_name: req.body.lastName,
       email: req.body.email,
       password: hashedPassword,
     });
@@ -46,8 +45,8 @@ async function login(req, res) {
     const database = client.db("react-native-app");
     const collection = database.collection("users");
 
-    // Find the user by username
-    const user = await collection.findOne({ username: req.body.username });
+    // Find the user by email
+    const user = await collection.findOne({ email: req.body.email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -66,7 +65,7 @@ async function login(req, res) {
       expiresIn: "1h",
     });
 
-    res.json({ token });
+    res.json({ token, user });
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ message: "Internal server error" });
