@@ -1,6 +1,6 @@
 const { client } = require("../utils/MongoConnection");
 
-async function getProducts(res) {
+async function getProducts(req, res) {
   try {
     await client.connect();
 
@@ -12,7 +12,7 @@ async function getProducts(res) {
       return res.status(404).json({ message: "No products found" });
     }
 
-    return products;
+    res.json(products);
   } catch (error) {
     console.error("Error fetching products: ", error);
     res.status(500).json({ message: "Internal server error" });

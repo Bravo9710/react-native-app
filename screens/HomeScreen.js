@@ -7,19 +7,28 @@ import {
   HStack,
   Heading,
   Image,
+  ScrollView,
   Stack,
   Toast,
   VStack,
 } from "native-base";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import Card from "../components/Card";
-import CardTest from "../components/CardTest";
+import { useProducts } from "../context/ProductsContext";
 
 export default function HomeScreen() {
+  const { products, setProducts } = useProducts();
+
   return (
-    <VStack>
-      <CardTest />
-    </VStack>
+    <ScrollView>
+      <VStack>
+        {products.map((product, index) => (
+          <Box pb={5} key={index}>
+            <Card product={product} />
+          </Box>
+        ))}
+      </VStack>
+    </ScrollView>
   );
 }
 

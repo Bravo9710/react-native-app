@@ -1,17 +1,21 @@
-import { HStack, Heading, Stack } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
 import {
   AspectRatio,
   Box,
+  Button,
   Center,
-  Image,
-  StyleSheet,
+  HStack,
+  Heading,
+  Icon,
+  Stack,
   Text,
-} from "react-native";
+} from "native-base";
+import { Image } from "react-native";
+import { useUserProducts } from "../context/UserProductsContext";
+import { addToProducts } from "../utils/addToProducts";
 
 export default function Card(props) {
-  const handleLogoPress = () => {
-    props.navigation.navigate("Home");
-  };
+  const { userProducts, setUserProducts } = useUserProducts();
 
   return (
     <Box alignItems="center">
@@ -41,56 +45,94 @@ export default function Card(props) {
               alt="image"
             />
           </AspectRatio>
-          <Center
-            bg="violet.500"
-            _dark={{
-              bg: "violet.400",
-            }}
-            _text={{
-              color: "warmGray.50",
-              fontWeight: "700",
-              fontSize: "xs",
-            }}
-            position="absolute"
-            bottom="0"
-            px="3"
-            py="1.5">
-            PHOTOS
-          </Center>
-        </Box>
-        <Stack p="4" space={3}>
-          <Stack space={2}>
-            <Heading size="md" ml="-1">
-              The Garden City
-            </Heading>
-            <Text
-              fontSize="xs"
-              _light={{
-                color: "violet.500",
-              }}
+          {props.product.onSale.status && (
+            <Center
+              bg="rgba(226, 107, 60, 0.8)"
               _dark={{
-                color: "violet.400",
+                bg: "violet.400",
               }}
-              fontWeight="500"
-              ml="-0.5"
-              mt="-1">
-              The Silicon Valley of India.
-            </Text>
+              _text={{
+                color: "warmGray.50",
+                fontWeight: "700",
+                fontSize: "xs",
+              }}
+              borderTopRightRadius={"sm"}
+              position="absolute"
+              bottom="0"
+              px="3"
+              py="1.5">
+              SALE
+            </Center>
+          )}
+        </Box>
+        <Stack p="4" space={1}>
+          <Stack space={2}>
+            <Heading size="md">{props.product.name}</Heading>
           </Stack>
-          <Text fontWeight="400">
-            Bengaluru (also called Bangalore) is the center of India's high-tech
-            industry. The city is also known for its parks and nightlife.
+          <Text fontWeight="400" color="coolGray.600" pb={5}>
+            {props.product.description}
           </Text>
-          <HStack alignItems="center" space={4} justifyContent="space-between">
-            <HStack alignItems="center">
+          <HStack justifyContent={"space-between"}>
+            <HStack
+              alignItems="baseline"
+              space={4}
+              justifyContent="space-between">
+              {props.product.onSale.status && (
+                <Text
+                  strikeThrough
+                  color="muted.600"
+                  _dark={{
+                    color: "black.500",
+                  }}
+                  fontSize={20}
+                  fontWeight="500">
+                  ${props.product.price.toFixed(2)}
+                </Text>
+              )}
+
               <Text
-                color="coolGray.600"
+                color="black"
                 _dark={{
-                  color: "warmGray.200",
+                  color: "black.500",
                 }}
-                fontWeight="400">
-                6 mins ago
+                fontSize={25}
+                fontWeight="500">
+                $
+                {props.product.onSale.status
+                  ? props.product.onSale.price.toFixed(2)
+                  : props.product.price.toFixed(2)}
               </Text>
+            </HStack>
+
+            <HStack space={2}>
+              <Button
+                variant="solid"
+                bg="blue.600"
+                onPress={() =>
+                  addToProducts(
+                    "cart",
+                    setUserProducts,
+                    userProducts,
+                    props.product,
+                  )
+                }
+                leftIcon={
+                  <Icon as={MaterialIcons} name="shopping-cart" size="md" />
+                }></Button>
+              <Button
+                variant="solid"
+                bg="red.600"
+                onPress={() =>
+                  addToProducts(
+                    "favorites",
+                    setUserProducts,
+                    userProducts,
+                    props.product,
+                  )
+                }
+                leftIcon={
+                  <Icon as={MaterialIcons} name="favorite" size="md" />
+                }></Button>
             </HStack>
           </HStack>
         </Stack>
@@ -99,20 +141,4 @@ export default function Card(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: "#22c",
-    flexDirection: "row",
-    width: "100%",
-    height: 60,
-    padding: 5,
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    marginLeft: 10,
-  },
-});
+const Example = () => {};

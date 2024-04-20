@@ -42,8 +42,8 @@ const getIcon = (screenName) => {
       return "send";
     case "Favorites":
       return "heart";
-    case "Archive":
-      return "archive";
+    case "Settings":
+      return "cog";
     case "Trash":
       return "trash-can";
     case "Spam":
@@ -82,7 +82,12 @@ function CustomDrawerContent(props) {
         <VStack divider={<Divider />} space="4">
           <VStack space="3">
             {props.state.routeNames.map((name, index) => {
-              if (name === "Home" || name === "Sign In" || name === "Sign Up") {
+              if (
+                name === "Home" ||
+                name === "Cart" ||
+                name === "Sign In" ||
+                name === "Sign Up"
+              ) {
                 return null;
               } else {
                 return (
@@ -126,49 +131,6 @@ function CustomDrawerContent(props) {
               }
             })}
           </VStack>
-          <VStack space="5">
-            <Text fontWeight="500" fontSize="14" px="5" color="gray.500">
-              Labels
-            </Text>
-            <VStack space="3">
-              <Pressable px="5" py="3">
-                <HStack space="7" alignItems="center">
-                  <Icon
-                    color="gray.500"
-                    size="5"
-                    as={<MaterialCommunityIcons name="bookmark" />}
-                  />
-                  <Text color="gray.700" fontWeight="500">
-                    Family
-                  </Text>
-                </HStack>
-              </Pressable>
-              <Pressable px="5" py="2">
-                <HStack space="7" alignItems="center">
-                  <Icon
-                    color="gray.500"
-                    size="5"
-                    as={<MaterialCommunityIcons name="bookmark" />}
-                  />
-                  <Text color="gray.700" fontWeight="500">
-                    Friends
-                  </Text>
-                </HStack>
-              </Pressable>
-              <Pressable px="5" py="3">
-                <HStack space="7" alignItems="center">
-                  <Icon
-                    color="gray.500"
-                    size="5"
-                    as={<MaterialCommunityIcons name="bookmark" />}
-                  />
-                  <Text fontWeight="500" color="gray.700">
-                    Work
-                  </Text>
-                </HStack>
-              </Pressable>
-            </VStack>
-          </VStack>
         </VStack>
       </VStack>
     </DrawerContentScrollView>
@@ -193,12 +155,10 @@ export default function CustomDrawer(props) {
             component={screen.component}
           />
         ))}
+        <Drawer.Screen name="Favorites" component={Component} />
         <Drawer.Screen name="Inbox" component={Component} />
         <Drawer.Screen name="Outbox" component={Component} />
-        <Drawer.Screen name="Favorites" component={Component} />
-        <Drawer.Screen name="Archive" component={Component} />
-        <Drawer.Screen name="Trash" component={Component} />
-        <Drawer.Screen name="Spam" component={Component} />
+        <Drawer.Screen name="Settings" component={Component} />
       </Drawer.Navigator>
     </Box>
   );

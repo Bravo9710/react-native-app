@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useState } from "react";
 import { fetchUser } from "../utils/fetchUser";
 

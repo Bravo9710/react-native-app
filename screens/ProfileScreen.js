@@ -24,21 +24,19 @@ export default function ProfileScreen() {
   };
 
   return (
-    <NativeBaseProvider>
-      <View style={styles.container}>
-        {user && (
-          <>
-            <Text>
-              Welcome, {user.first_name} {user.last_name}
-            </Text>
-            <Text>Email: {user.email}</Text>
-          </>
-        )}
-        <Button mt={5} onPress={handleLogout}>
-          {user ? "Log out" : "Log in"}
-        </Button>
-      </View>
-    </NativeBaseProvider>
+    <View style={styles.container}>
+      {user && (
+        <>
+          <Text>
+            Welcome, {user.first_name} {user.last_name}
+          </Text>
+          <Text>Email: {user.email}</Text>
+        </>
+      )}
+      <Button mt={5} onPress={handleLogout}>
+        {user ? "Log out" : "Log in"}
+      </Button>
+    </View>
   );
 }
 
