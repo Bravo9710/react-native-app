@@ -1,19 +1,6 @@
-import { Entypo, MaterialIcons } from "@expo/vector-icons";
-import {
-  Box,
-  Button,
-  Center,
-  HStack,
-  Icon,
-  IconButton,
-  Menu,
-  NativeBaseProvider,
-  StatusBar,
-  Text,
-  Toast,
-  VStack,
-} from "native-base";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { HStack, Icon, IconButton } from "native-base";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function Header(props) {
   const handleLogoPress = () => {

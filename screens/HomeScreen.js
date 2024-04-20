@@ -1,44 +1,25 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { Button, Toast } from "native-base";
-import { useCallback } from "react";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  AspectRatio,
+  Box,
+  Button,
+  Center,
+  HStack,
+  Heading,
+  Image,
+  Stack,
+  Toast,
+  VStack,
+} from "native-base";
 import { StyleSheet, Text, View } from "react-native";
-import { useUser } from "../context/UserContext";
+import Card from "../components/Card";
+import CardTest from "../components/CardTest";
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
-  const { user, setUser } = useUser();
-
-  const handleLogout = async () => {
-    try {
-      // Clear AsyncStorage data and user state
-      await AsyncStorage.removeItem("token");
-      await AsyncStorage.removeItem("user");
-      setUser(null);
-
-      // Navigate to the sign-in screen upon successful logout
-      navigation.navigate("Sign In");
-    } catch (error) {
-      console.error("Logout failed:", error);
-      Toast.show({ description: "Logout failed", status: "error" });
-    }
-  };
-
   return (
-    <View style={styles.container}>
-      <Text style={{ color: "#111" }}>Our first app</Text>
-      {user && (
-        <>
-          <Text>
-            Welcome, {user.first_name} {user.last_name}
-          </Text>
-          <Text>Email: {user.email}</Text>
-        </>
-      )}
-      <Button mt={5} onPress={handleLogout}>
-        {user ? "Log out" : "Log in"}
-      </Button>
-    </View>
+    <VStack>
+      <CardTest />
+    </VStack>
   );
 }
 
