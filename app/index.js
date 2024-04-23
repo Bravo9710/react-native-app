@@ -1,30 +1,31 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import CustomDrawer from "../components/Drawer";
-import HomeScreen from "../screens/HomeScreen";
-import SecondaryScreen from "../screens/SecondaryScreen";
-import SignInScreen from "../screens/SignInScreen";
-import SignUpScreen from "../screens/SignUpScreen";
+import { ProductProvider } from "../context/ProductsContext";
+import { UserProvider } from "../context/UserContext";
+import { UserProductsProvider } from "../context/UserProductsContext";
 
 export default function App() {
+  const [searchText, setSearchText] = useState("");
+
   return (
-    <NavigationContainer>
-      <NativeBaseProvider>
-        <View style={styles.main}>
-          {/* <StatusBar style="light" /> */}
-          <CustomDrawer
-            screens={[
-              { name: "Home", component: HomeScreen },
-              { name: "Secondary", component: SecondaryScreen },
-              { name: "Sign In", component: SignInScreen },
-              { name: "Sign Up", component: SignUpScreen },
-            ]}
-          />
-        </View>
-      </NativeBaseProvider>
-    </NavigationContainer>
+    <ProductProvider>
+      <UserProvider>
+        <UserProductsProvider>
+          <NavigationContainer>
+            <NativeBaseProvider>
+              <View style={styles.main}>
+                {/* <StatusBar style="light" /> */}
+                <CustomDrawer />
+              </View>
+            </NativeBaseProvider>
+          </NavigationContainer>
+        </UserProductsProvider>
+      </UserProvider>
+    </ProductProvider>
   );
 }
 

@@ -17,6 +17,7 @@ import {
 import React, { useState } from "react";
 import { useUser } from "../context/UserContext";
 import CartScreen from "../screens/CartScreen";
+import FavoritesScreen from "../screens/FavoritesScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SignInScreen from "../screens/SignInScreen";
@@ -168,7 +169,7 @@ export default function CustomDrawer(props) {
         <Drawer.Screen name="Cart" component={CartScreen} />
         <Drawer.Screen name="Sign In" component={SignInScreen} />
         <Drawer.Screen name="Sign Up" component={SignUpScreen} />
-        <Drawer.Screen name="Favorites" component={Component} />
+        <Drawer.Screen name="Favorites" component={FavoritesScreen} />
         <Drawer.Screen name="Inbox" component={Component} />
         <Drawer.Screen name="Outbox" component={Component} />
         <Drawer.Screen name="Settings" component={Component} />
