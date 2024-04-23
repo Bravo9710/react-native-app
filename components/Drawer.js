@@ -14,8 +14,13 @@ import {
   Text,
   VStack,
 } from "native-base";
-import * as React from "react";
+import React, { useState } from "react";
 import { useUser } from "../context/UserContext";
+import CartScreen from "../screens/CartScreen";
+import HomeScreen from "../screens/HomeScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import SignInScreen from "../screens/SignInScreen";
+import SignUpScreen from "../screens/SignUpScreen";
 import Header from "./Header";
 
 global.__reanimatedWorkletInit = () => {};
@@ -137,24 +142,32 @@ function CustomDrawerContent(props) {
   );
 }
 export default function CustomDrawer(props) {
+  const [searchText, setSearchText] = useState("");
+
   return (
     <Box safeArea flex={1}>
       <Drawer.Navigator
         initialRouteName="Home"
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
         screenOptions={({ route }) => ({
           drawerPosition: "right",
           header: ({ navigation, options }) => {
-            return <Header navigation={navigation} />;
+            return (
+              <Header
+                navigation={navigation}
+                searchText={searchText}
+                setSearchText={setSearchText}
+              />
+            );
           },
-        })}
-        drawerContent={(props) => <CustomDrawerContent {...props} />}>
-        {props.screens.map((screen, index) => (
-          <Drawer.Screen
-            key={index}
-            name={screen.name}
-            component={screen.component}
-          />
-        ))}
+        })}>
+        <Drawer.Screen name="Home" initialParams={{ searchText: searchText }}>
+          {(props) => <HomeScreen searchText={searchText} {...props} />}
+        </Drawer.Screen>
+        <Drawer.Screen name="Profile" component={ProfileScreen} />
+        <Drawer.Screen name="Cart" component={CartScreen} />
+        <Drawer.Screen name="Sign In" component={SignInScreen} />
+        <Drawer.Screen name="Sign Up" component={SignUpScreen} />
         <Drawer.Screen name="Favorites" component={Component} />
         <Drawer.Screen name="Inbox" component={Component} />
         <Drawer.Screen name="Outbox" component={Component} />

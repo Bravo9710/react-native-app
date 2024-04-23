@@ -1,42 +1,30 @@
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  AspectRatio,
-  Box,
-  Button,
-  Center,
-  HStack,
-  Heading,
-  Image,
-  ScrollView,
-  Stack,
-  Toast,
-  VStack,
-} from "native-base";
-import { StyleSheet } from "react-native";
+import { Box, Center, Heading, ScrollView, VStack } from "native-base";
 import Card from "../components/Card";
 import { useProducts } from "../context/ProductsContext";
 
-export default function HomeScreen() {
+export default function HomeScreen(props) {
   const { products, setProducts } = useProducts();
+
+  // Filtered products based on search text
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(props.searchText.toLowerCase()),
+  );
 
   return (
     <ScrollView>
-      <VStack>
-        {products.map((product, index) => (
-          <Box pb={5} key={index}>
-            <Card product={product} />
-          </Box>
-        ))}
+      <VStack py={6}>
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product, index) => (
+            <Box pb={5} key={index}>
+              <Card product={product} />
+            </Box>
+          ))
+        ) : (
+          <Center py={100} h={"100%"}>
+            <Heading>No Products Found</Heading>
+          </Center>
+        )}
       </VStack>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

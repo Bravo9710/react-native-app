@@ -9,7 +9,7 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { useUserProducts } from "../context/UserProductsContext";
+import { useUserProducts } from "../context/UserProductsContext.js";
 
 export default function ListItem(props) {
   const { userProducts, setUserProducts } = useUserProducts();

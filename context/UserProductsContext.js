@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 const UserProductsContext = createContext();
 
-export const UserProductProvider = ({ children }) => {
+export const UserProductsProvider = ({ children }) => {
   const [userProducts, setUserProducts] = useState({
     cart: [],
     favorites: [],

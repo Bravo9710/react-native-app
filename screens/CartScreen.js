@@ -1,6 +1,5 @@
-import { Box, ScrollView } from "native-base";
 import List from "../components/List";
-import { useUserProducts } from "../context/UserProductsContext";
+import { useUserProducts } from "../context/UserProductsContext"; // Note the correct import
 
 export default function CartScreen() {
   const { userProducts, setUserProducts } = useUserProducts();
