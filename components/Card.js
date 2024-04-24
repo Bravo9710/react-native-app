@@ -10,6 +10,7 @@ import {
   Image,
   Stack,
   Text,
+  useToast,
 } from "native-base";
 import { useUserProducts } from "../context/UserProductsContext";
 import { addToProducts } from "../utils/addToProducts";
@@ -26,6 +27,7 @@ const productImages = {
 export default function Card(props) {
   const { userProducts, setUserProducts } = useUserProducts();
   const imageUrl = productImages[props.product.image];
+  const toast = useToast();
 
   return (
     <Box alignItems="center">
@@ -45,7 +47,8 @@ export default function Card(props) {
         }}
         _light={{
           backgroundColor: "gray.50",
-        }}>
+        }}
+      >
         <Box bg={"white"}>
           <AspectRatio w="100%" ratio={1 / 1}>
             <Image
@@ -70,7 +73,8 @@ export default function Card(props) {
               position="absolute"
               bottom="0"
               px="3"
-              py="1.5">
+              py="1.5"
+            >
               SALE
             </Center>
           )}
@@ -86,7 +90,8 @@ export default function Card(props) {
             <HStack
               alignItems="baseline"
               space={4}
-              justifyContent="space-between">
+              justifyContent="space-between"
+            >
               {props.product.onSale.status && (
                 <Text
                   strikeThrough
@@ -95,7 +100,8 @@ export default function Card(props) {
                     color: "black.500",
                   }}
                   fontSize={20}
-                  fontWeight="500">
+                  fontWeight="500"
+                >
                   ${props.product.price.toFixed(2)}
                 </Text>
               )}
@@ -106,7 +112,8 @@ export default function Card(props) {
                   color: "black.500",
                 }}
                 fontSize={25}
-                fontWeight="500">
+                fontWeight="500"
+              >
                 $
                 {props.product.onSale.status
                   ? props.product.onSale.price.toFixed(2)
@@ -123,26 +130,33 @@ export default function Card(props) {
                     "cart",
                     setUserProducts,
                     userProducts,
-                    props.product,
+                    props.product
                   )
                 }
                 leftIcon={
                   <Icon as={MaterialIcons} name="shopping-cart" size="md" />
-                }></Button>
+                }
+              ></Button>
               <Button
                 variant="solid"
                 bg="red.600"
-                onPress={() =>
+                onPress={() => {
                   addToProducts(
                     "favorites",
                     setUserProducts,
                     userProducts,
-                    props.product,
-                  )
-                }
-                leftIcon={
-                  <Icon as={MaterialIcons} name="favorite" size="md" />
-                }></Button>
+                    props.product
+                  );
+                  toast.show({
+                    title: "Added to Favorites",
+                    description: "This item has been added to your favorites.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                  });
+                }}
+                leftIcon={<Icon as={MaterialIcons} name="favorite" size="md" />}
+              ></Button>
             </HStack>
           </HStack>
         </Stack>

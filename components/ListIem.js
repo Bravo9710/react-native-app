@@ -11,9 +11,19 @@ import {
   VStack,
 } from "native-base";
 import { useUserProducts } from "../context/UserProductsContext.js";
+const creatine = require("../assets/images/creatine.jpg");
+const proteinBar = require("../assets/images/protein-bar.jpg");
+const protein = require("../assets/images/protein.jpg");
+
+const productImages = {
+  "creatine.jpg": creatine,
+  "protein-bar.jpg": proteinBar,
+  "protein.jpg": protein,
+};
 
 export default function ListItem(props) {
   const { userProducts, setUserProducts } = useUserProducts();
+  const imageUrl = productImages[props.product.image];
 
   const handleRemoveItem = () => {
     const newCart = userProducts.favorites.filter(
@@ -38,9 +48,7 @@ export default function ListItem(props) {
         alignItems={"center"}>
         <Avatar
           size="48px"
-          source={{
-            uri: props.product.imageUrl,
-          }}
+          source={imageUrl}
         />
         <Heading
           _dark={{

@@ -10,10 +10,18 @@ import {
   VStack,
 } from "native-base";
 import { useUserProducts } from "../context/UserProductsContext.js";
+const creatine = require("../assets/images/creatine.jpg");
+const proteinBar = require("../assets/images/protein-bar.jpg");
+const protein = require("../assets/images/protein.jpg");
 
+const productImages = {
+  "creatine.jpg": creatine,
+  "protein-bar.jpg": proteinBar,
+  "protein.jpg": protein,
+};
 export default function CartListItem(props) {
   const { userProducts, setUserProducts } = useUserProducts();
-
+  const imageUrl = productImages[props.product.image];
   const handleDecrease = () => {
     const newCart = userProducts.cart.map((item) => {
       if (item._id === props.product._id && item.count > 1) {
@@ -37,7 +45,7 @@ export default function CartListItem(props) {
   };
   const handleRemoveItem = () => {
     const newCart = userProducts.cart.filter(
-      (item) => item._id !== props.product._id,
+      (item) => item._id !== props.product._id
     );
     setUserProducts({ ...userProducts, cart: newCart });
   };
@@ -51,21 +59,18 @@ export default function CartListItem(props) {
       borderColor="muted.800"
       pl={["0", "4"]}
       pr={["0", "5"]}
-      py="2">
+      py="2"
+    >
       <HStack space={[2, 3]} justifyContent="space-between">
-        <Avatar
-          size="48px"
-          source={{
-            uri: props.product.imageUrl,
-          }}
-        />
+        <Avatar size="48px" source={imageUrl} />
         <VStack>
           <Text
             _dark={{
               color: "warmGray.50",
             }}
             color="coolGray.800"
-            bold>
+            bold
+          >
             {props.product.name + " x " + props.product.count}
           </Text>
           <HStack>
@@ -104,7 +109,8 @@ export default function CartListItem(props) {
             }}
             color="coolGray.800"
             alignSelf="flex-end"
-            textAlign="right">
+            textAlign="right"
+          >
             $
             {(props.product.onSale.status
               ? props.product.onSale.price
@@ -117,7 +123,8 @@ export default function CartListItem(props) {
             }}
             color="coolGray.800"
             bold
-            textAlign="right">
+            textAlign="right"
+          >
             Total:{" $"}
             {(
               (props.product.onSale.status
