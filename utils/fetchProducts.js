@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Retrieve user information from AsyncStorage
 export const fetchProducts = async (setProducts) => {
   try {
-    const response = await fetch("http://192.168.0.105:5000/api/products", {
+    const response = await fetch("http://192.168.43.94:5000/api/products", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -7,15 +7,25 @@ import {
   HStack,
   Heading,
   Icon,
+  Image,
   Stack,
   Text,
 } from "native-base";
-import { Image } from "react-native";
 import { useUserProducts } from "../context/UserProductsContext";
 import { addToProducts } from "../utils/addToProducts";
+const creatine = require("../assets/images/creatine.jpg");
+const proteinBar = require("../assets/images/protein-bar.jpg");
+const protein = require("../assets/images/protein.jpg");
+
+const productImages = {
+  "creatine.jpg": creatine,
+  "protein-bar.jpg": proteinBar,
+  "protein.jpg": protein,
+};
 
 export default function Card(props) {
   const { userProducts, setUserProducts } = useUserProducts();
+  const imageUrl = productImages[props.product.image];
 
   return (
     <Box alignItems="center">
@@ -36,12 +46,12 @@ export default function Card(props) {
         _light={{
           backgroundColor: "gray.50",
         }}>
-        <Box>
-          <AspectRatio w="100%" ratio={16 / 9}>
+        <Box bg={"white"}>
+          <AspectRatio w="100%" ratio={1 / 1}>
             <Image
-              source={{
-                uri: "https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg",
-              }}
+              source={imageUrl}
+              size={"100%"}
+              resizeMode="contain"
               alt="image"
             />
           </AspectRatio>

@@ -58,7 +58,7 @@ export default function SignUpScreen() {
     try {
       const requestData = JSON.stringify(formData);
       const response = await fetch(
-        "http://192.168.0.105:5000/api/auth/register",
+        "http://192.168.43.94:5000/api/auth/register",
         {
           method: "POST",
           headers: {
